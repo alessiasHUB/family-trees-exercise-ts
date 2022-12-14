@@ -19,7 +19,7 @@ async function mainProgram() {
   printBanner("LANNISTER");
   printPersonTreeAsAscii(createLannisterTree());
 
-  printBanner("All people in STARK");
+  printBanner("All people in STARK"); //mdmmd
   logAllPeopleInTree(createStarkTree());
 
   printBanner("WITH STACK - british royals");
