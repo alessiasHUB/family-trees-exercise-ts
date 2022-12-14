@@ -6,6 +6,8 @@ import { createStarkTree } from "./families/stark";
 import { logAllPeopleInTree, logAllPeopleInTreeWithQueue } from "./treeLogging";
 import { printBanner } from "./utils/bannerUtils";
 import { printPersonTreeAsAscii } from "./utils/toAsciiTree";
+import { logIfInTree } from "./treeLogging";
+import { isDescendant } from "./treeLogging";
 
 async function mainProgram() {
   printBanner("BARATHEON");
@@ -14,20 +16,26 @@ async function mainProgram() {
   printBanner("STARK");
   printPersonTreeAsAscii(createStarkTree());
 
-  // Uncomment to test your work..
-
-  // printBanner("LANNISTER");
-  // printPersonTreeAsAscii(createLannisterTree());
+  printBanner("LANNISTER");
+  printPersonTreeAsAscii(createLannisterTree());
 
   printBanner("All people in STARK");
   logAllPeopleInTree(createStarkTree());
 
-  // printBanner("WITH STACK - british royals")
-  // logAllPeopleInTree(createBritishSuccessionTree());
-  // printBanner("WITH QUEUE - british royals")
-  // logAllPeopleInTreeWithQueue(createBritishSuccessionTree());
+  printBanner("WITH STACK - british royals");
+  logAllPeopleInTree(createBritishSuccessionTree());
+  printBanner("WITH QUEUE - british royals");
+  logAllPeopleInTreeWithQueue(createBritishSuccessionTree());
+  console.log(logAllPeopleInTreeWithQueue(createBritishSuccessionTree()));
 
-  // You'll need to add more test code for later exercises, too.
+  console.log(logIfInTree("Arya", createStarkTree()));
+  console.log(logIfInTree("Tyrion", createLannisterTree()));
+  console.log(logIfInTree("Alessia", createLannisterTree()));
+
+  console.log(isDescendant("Jamie", "Tywin", createLannisterTree()));
+  console.log(isDescendant("Tywin", "Jamie", createLannisterTree()));
+  console.log(isDescendant("George", "Anne", createBritishSuccessionTree()));
+  console.log(isDescendant("Anne", "George", createBritishSuccessionTree()));
 }
 
 mainProgram();

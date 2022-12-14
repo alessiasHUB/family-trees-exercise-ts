@@ -16,17 +16,86 @@ export function logAllPeopleInTree(topPerson: Person): void {
   }
 }
 
-export function logAllPeopleInTreeWithQueue(topPerson: Person): void {
-  console.log("TODO!  First person is " + topPerson.name);
+export function logAllPeopleInTreeWithQueue(topPerson: Person): string[] {
+  const workStack: Person[] = [];
+  const queue: string[] = [];
+  workStack.push(topPerson);
+
+  while (workStack.length > 0) {
+    const currentPerson: Person | undefined = workStack.shift();
+    if (currentPerson !== undefined) {
+      queue.unshift(currentPerson.name);
+      const children: Person[] = currentPerson.children;
+      for (const child of children) {
+        workStack.push(child);
+      }
+    }
+  }
+  // for (const person of queue) {
+  //   console.log(person);
+  // }
+  return queue;
 }
 
 /* *-*-- PSEUDO CODE --*-*
-function logAllPeopleInTree(rootPerson)
-    workStack = empty stack of Person objects
-    push rootPerson onto workStack
-
-		while workStack is not empty: 
-        currentPerson = pop person off workStack
-        log the name property of currentPerson
-        push each element of currentPerson's children onto the workStack
+make WORKSTACK = []
+push TOP_PERSON to WORKSTACK
+make QUEUE = []
+WHILE WORKSTACK is NOT EMPTY
+CURRENT_PERSON = (shift) "FIRST_PERSON" on WORKSTACK 
+UNSHIFT CURRENT_PERSON to the QUEUE
+PUSH the CHILDREN (of FIRST_PERSON) to the WORKSTACK, repeat
+WHILE LOOP END
+console.log the QUEUE (front to back)
 */
+export function logIfInTree(targetName: string, topOfTree: Person): string {
+  const workStack: Person[] = [];
+  workStack.push(topOfTree);
+  while (workStack.length > 0) {
+    const currentPerson: Person | undefined = workStack.pop();
+    if (currentPerson !== undefined) {
+      if (currentPerson.name === targetName) {
+        return `FOUND ${targetName}`;
+      }
+      const children: Person[] = currentPerson.children;
+      for (const child of children) {
+        workStack.push(child);
+      }
+    }
+  }
+  return `No such person found: ${targetName}`;
+}
+
+export function isDescendant(
+  descendantName: string,
+  ancestorName: string,
+  topOfTree: Person,
+): boolean {
+  let foundDes = false;
+  let foundAnc = false;
+  const workStack: Person[] = [];
+  workStack.push(topOfTree);
+
+  while (workStack.length > 0) {
+    const currentPerson: Person | undefined = workStack.shift();
+    if (currentPerson !== undefined) {
+      if (currentPerson.name === ancestorName && foundDes === false) {
+        foundAnc = true;
+      }
+      if (currentPerson.name === descendantName) {
+        foundDes = true;
+        if (foundAnc === false) {
+          return false;
+        }
+      }
+      if (foundAnc === true && foundDes === true) {
+        return true;
+      }
+      const children: Person[] = currentPerson.children;
+      for (const child of children) {
+        workStack.push(child);
+      }
+    }
+  }
+  return false;
+}
